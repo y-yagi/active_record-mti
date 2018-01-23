@@ -2,7 +2,7 @@ module ActiveRecord
   module MTI
     module QueryMethods
 
-      def build_arel
+      def build_arel(*)
         select_by_tableoid = select_values.delete(:tableoid) == :tableoid
         group_by_tableoid = group_values.delete(:tableoid) == :tableoid
 
