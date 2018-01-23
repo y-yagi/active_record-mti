@@ -39,8 +39,11 @@ module ActiveRecord
               execute %Q(ALTER TABLE "#{table_name}" ADD PRIMARY KEY ("#{inherited_table_primary_key}"))
 
               indexes(inherited_table).each do |index|
-                attributes = index.to_h.slice(:unique, :using, :where, :orders)
-
+                attributes = if index.respond_to?(:to_h)
+                  index.to_h.slice(:unique, :using, :where, :orders)
+                else
+                  { unique: index.unique, using: index.using, where: index.where, orders: index.orders }
+                end
                 # Why rails insists on being inconsistant with itself is beyond me.
                 attributes[:order] = attributes.delete(:orders)
 
