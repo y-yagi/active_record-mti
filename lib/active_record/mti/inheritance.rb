@@ -105,13 +105,6 @@ module ActiveRecord
           end
         end
 
-        # Type condition only applies if it's STI, otherwise it's
-        # done for free by querying the inherited table in MTI
-        def type_condition(table = arel_table)
-          return nil if using_multi_table_inheritance?
-          super
-        end
-
         def add_tableoid_column
           if self.respond_to? :attribute
             self.attribute :tableoid, ActiveRecord::MTI.oid_class.new
